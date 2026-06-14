@@ -63,5 +63,8 @@ Agents are deployed in `~/agents/` and managed as background services.
 ## 🛡️ Security & Hardening
 For detailed information on the methodologies used to secure the laboratory's remote access and network topology, please refer to the **[SSH & Network Security Procedure](SECURITY_PROCEDURES.md)**.
 
+## 📊 Laboratory Reports
+- **[Comprehensive Final Report (June 2026)](docs/LAB_COMPREHENSIVE_FINAL_REPORT.md)**: Synthesis of infrastructure migration and security hardening status.
+
 ---
 *Always building, breaking, fixing, and documenting.*
