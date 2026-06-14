@@ -40,5 +40,16 @@ Laboratory management is powered by custom skills integrated with Gemini CLI:
 - **Certificate Renewal:** Periodically sign keys using the master CA.
 - **Agent Persistence:** Utilize `systemd` user-level services with `linger` enabled for resilience.
 
+## 6. Access Control
+- **Authentication:** Certificat SSH signé (valide 1 an).
+- **CA Private Key (`lab_ca`):** To be stored on ultra-secure storage (must never leave Kali).
+- **User Identity:** `dina` (or `newdina` on Canwork).
+
+## 7. Daily Usage (SSH Connections)
+With the SSH CA and `~/.ssh/config` configured, access is simplified:
+- Use the command: `ssh <user>@<tailscale_node_name>`
+- The SSH client automatically presents the required signed certificate.
+- No further manipulation is required.
+
 ---
-*Technical Reference Version 1.0 (2026-06-14)*
+*Technical Reference Version 1.1 (2026-06-14)*
