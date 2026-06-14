@@ -59,4 +59,9 @@ Agents are deployed in `~/agents/` and managed as background services.
 - **Configuration:** Stable settings enforced via `~/.ssh/config` (KeepAlive settings).
 
 ---
+
+## 🛡️ Security & Hardening
+For detailed information on the methodologies used to secure the laboratory's remote access and network topology, please refer to the **[SSH & Network Security Procedure](SECURITY_PROCEDURES.md)**.
+
+---
 *Always building, breaking, fixing, and documenting.*
