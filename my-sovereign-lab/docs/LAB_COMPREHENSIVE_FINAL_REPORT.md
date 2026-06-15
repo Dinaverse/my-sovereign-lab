@@ -1,53 +1,45 @@
 ================================================================================
-LABORATORY COMPREHENSIVE FINAL REPORT - JUNE 14, 2026
+LABORATORY FINAL SYNTHESIS & TROUBLESHOOTING REPORT - JUNE 14, 2026
 ================================================================================
 
-1. INTRODUCTION
-Ce document synthétise l'état final de l'infrastructure du laboratoire suite à la migration et au durcissement complet des systèmes. L'objectif est de maintenir une infrastructure souveraine, automatisée et sécurisée.
+## 1. ARCHITECTURE GLOBALE
+Le laboratoire est désormais une plateforme souveraine, pilotée par Gemini CLI.
+- **Orchestration :** Gemini CLI avec sous-agents experts et pont MCP (Security Tools).
+- **Réseau :** Tunnel Tailscale (Zero Trust), accès public SSH désactivé.
+- **Monitoring :** Stack Grafana/Prometheus (Dell) et Wazuh SIEM (centralisé Dell, agents sur tous les nœuds).
+- **Automatisation :** Infrastructure as Code (Ansible) sur la station Kali.
 
-2. TOPOLOGIE RÉSEAU & NŒUDS
-La communication inter-nœuds est exclusivement isolée via le tunnel chiffré Tailscale. L'accès SSH sur l'interface publique (LAN) est désactivé sur tous les nœuds sécurisés.
+## 2. POSTURE DE SÉCURITÉ
+- **SSH CA :** Remplacement des clés statiques par des certificats signés (validité 1 an).
+- **Firewall :** NFTables/Iptables restreint aux interfaces Tailscale (règle 'drop' par défaut sur port 22).
+- **Protection :** Fail2Ban actif sur la station Kali.
+- **Persistance :** Services systemd (user-level) avec `loginctl enable-linger`.
 
-| Host Name | Rôle | IP Tailscale | Méthode SSH |
-| :--- | :--- | :--- | :--- |
-| Kali Station | Orchestrateur/Attaque | 100.72.84.77 | Key (id_lab_master) |
-| Arch Cluster | Compute IA (4x P106-100) | 100.69.65.101 | Key (id_lab_master) |
-| Raspberry Pi | Pi-hole/Services | 100.80.155.45 | Key (id_lab_master) |
-| Dell Precision | Monitoring/Orchestrator | N/A | Key (id_lab_master) |
-| Canwork189 | Stockage/Général | 100.118.171.116 | Key (id_lab_master) |
-| Canwork164 | Stockage/Général | 100.65.232.81 | Key (id_lab_master) |
+## 3. HISTORIQUE DES PROBLÈMES & RÉSOLUTIONS
+Au cours de l'automatisation, les obstacles suivants ont été levés :
 
-3. POSTURE DE SÉCURITÉ
-- Accès SSH : Authentification par clé uniquement (Ed25519 `id_lab_master`). Authentification par mot de passe désactivée sur tous les nœuds (`PasswordAuthentication no`).
-- Filtrage réseau : Accès SSH restreint à l'interface `tailscale0` via `iptables` ou `nftables`.
-- Monitoring : ICMP (ping) désactivé.
-- Protection : Fail2Ban installé sur Kali (Jail SSH sur port 2222).
+- **Problème :** Incompatibilité du pilote Wi-Fi (8821au) lors du boot du nouveau noyau (Arch).
+  - **Résolution :** Désinstallation du pilote problématique (`8821au-dkms`) et redémarrage pour aligner le noyau avec les modules.
 
-4. AUTOMATISATION (Gemini CLI Skills)
-L'orchestration est gérée par les compétences natives suivantes :
-- `lab-auditor` : Audit complet matériel et logiciel.
-- `agent-controller` : Gestion des services `systemd` (Security-Ops, Net-Analyzer).
-- `deploy-docker-stack` : Gestion de la stack Grafana/Prometheus (Dell).
-- `log-archiver` : Archivage automatisé des logs vers le nœud Canwork.
-- `security-tool-trigger` : Interface MCP pour scans de sécurité (nmap, etc.).
-- `engineer-bridge` : Pont vers le framework `claude-engineer`.
-- `dns-exfiltration-analysis` : Analyse passive DNS.
-- `ios-device-restoration-linux` : Gestion des restaurations iOS.
-- `multi-gpu-llm-setup-arch` : Setup et tuning GPU/Ollama.
-- `wctf-vulnerability-cheatsheet` : Référence rapide CTF.
-- `local-ai-management` : Gestion de la stack souveraine.
-- `ctf-writeup-organization` : Automatisation des rapports CTF.
+- **Problème :** Blocage de `do-release-upgrade` (Ubuntu EOL 20.04) par des PPA tiers (deadsnakes).
+  - **Résolution :** Purge manuelle des PPA conflictuels (`ppa-purge`), nettoyage de `/etc/apt/sources.list.d/`, et mise à jour vers Ubuntu 22.04.
 
-5. ARCHITECTURE D'ORCHESTRATION
-- Orchestrateur : Gemini CLI.
-- Ponts : MCP (Model Context Protocol) pour les outils natifs de sécurité.
-- Persistance : Services `systemd` avec mode `linger` activé pour la survie au logout.
+- **Problème :** Incompatibilité Ansible avec Python 3.8 (exigé 3.9+).
+  - **Résolution :** Mise à niveau de l'OS vers Ubuntu 22.04+ (fournissant Python 3.10 nativement).
 
-6. MAINTENUE ET ÉVOLUTION
-- Mise à jour systèmes : `pacman -Syu` (Arch) / `apt dist-upgrade` (Debian/Ubuntu).
-- Accès root : Nécessite un accès physique ou console (KVM/IPMI) pour toute réinitialisation de mot de passe `sudo`.
-- Documentation source : `/home/dina/LAB_MASTER_DOCUMENTATION.md` et `/home/dina/Desktop/mon_labo_backup/`.
+- **Problème :** Échec de déploiement Ansible dû à la gestion des mots de passe sudo.
+  - **Résolution :** Utilisation de variables d'hôte individuelles (`ansible_become_pass`) dans un inventaire chiffré via `ansible-vault`.
+
+- **Problème :** Erreurs de compilation TypeScript sur le serveur MCP.
+  - **Résolution :** Optimisation de `tsconfig.json` (exclure `node_modules`, inclure uniquement le fichier source) et correction du typage (renommage `execAsync` -> `execFileAsync`).
+
+## 4. PROCÉDURES OPÉRATIONNELLES
+- **Automatisation :** Lancer `ansible-playbook -i ~/ansible/hosts.ini ~/ansible/site.yml` pour appliquer la sécurité et déployer les agents.
+- **Monitoring :** Accès via ports 3000/9090 (IP Tailscale du Dell).
+- **Maintenance :** Les logs sont centralisés via Wazuh.
+
+## 5. ARCHIVAGE
+La documentation de référence complète est disponible dans `/home/dina/Desktop/mon_labo_backup/` et ce rapport final est archivé ici.
 
 ---
-*Ce rapport constitue l'état de référence de la souveraineté du laboratoire au 14 juin 2026.*
-EOF
+*Fin du rapport de clôture — Système opérationnel et stabilisé.*
