@@ -66,6 +66,7 @@ For detailed information on the methodologies used to secure the laboratory's re
 ## 📊 Laboratory Reports
 - **[Comprehensive Final Report (June 2026)](docs/LAB_COMPREHENSIVE_FINAL_REPORT.md)**: Synthesis of infrastructure migration and security hardening status.
 - **[Operations & Security Reference](docs/LAB_OPERATIONS_REFERENCE.md)**: Technical protocols for lab maintenance and security.
+- **[Syncthing Troubleshooting](docs/SYNCTHING_TROUBLESHOOTING.md)**: Procedures for resolving remote access issues via SSH tunneling.
 
 ---
 *Always building, breaking, fixing, and documenting.*
