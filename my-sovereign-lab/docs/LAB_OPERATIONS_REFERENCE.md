@@ -51,5 +51,11 @@ With the SSH CA and `~/.ssh/config` configured, access is simplified:
 - The SSH client automatically presents the required signed certificate.
 - No further manipulation is required.
 
+## 8. TROUBLESHOOTING & DÉPANNAGE
+- **Problème :** Blocage de `do-release-upgrade` par des PPA tiers et fichiers sources corrompus.
+  - **Résolution :** Suppression manuelle des fichiers PPA conflictuels dans `/etc/apt/sources.list.d/`, restauration de `sources.list` par défaut, et exécution de `do-release-upgrade`.
+- **Problème :** Incompatibilité Ansible avec Python 3.8 (sur Ubuntu 20.04).
+  - **Résolution :** Mise à niveau de l'OS vers Ubuntu 22.04+ pour bénéficier de Python 3.10+ natif.
+
 ---
 *Technical Reference Version 1.1 (2026-06-14)*
