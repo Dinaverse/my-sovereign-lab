@@ -1,12 +1,12 @@
 # 🧪 My Sovereign Lab
 
-> *A self-hosted, bare-metal computing environment engineered for resilience, data sovereignty, and high-performance local AI inference — with zero cloud dependencies.*
+> *A self-hosted, bare-metal computing environment engineered for resilience, data sovereignty, and high-performance local AI inference - with zero cloud dependencies.*
 
 ---
 
 ## 🎯 Vision
 
-This laboratory is the physical and logical backbone of all my infrastructure projects. It converts repurposed enterprise-grade hardware into a distributed, multi-node computing cluster capable of running local LLMs, security tooling, network monitoring, and containerized services — entirely on-premises.
+This laboratory is the physical and logical backbone of all my infrastructure projects. It converts repurposed enterprise-grade hardware into a distributed, multi-node computing cluster capable of running local LLMs, security tooling, network monitoring, and containerized services - entirely on-premises.
 
 ---
 
@@ -56,10 +56,10 @@ This laboratory is the physical and logical backbone of all my infrastructure pr
   [Dell Gateway / Monitoring]
      │
   [LAN Switch]
-     ├── [Kali — Master Orchestrator]
-     ├── [Arch — GPU Cluster (4x P106-100)]
-     ├── [Raspberry Pi — IDS / DNS]
-     └── [AMD Canwork189 — Storage / CPU]
+     ├── [Kali - Master Orchestrator]
+     ├── [Arch - GPU Cluster (4x P106-100)]
+     ├── [Raspberry Pi - IDS / DNS]
+     └── [AMD Canwork189 - Storage / CPU]
 ```
 
 ---
@@ -76,4 +76,4 @@ This laboratory is the physical and logical backbone of all my infrastructure pr
 
 ---
 
-*Built with a research-and-development mindset — repurposing hardware, not renting cloud.*
+*Built with a research-and-development mindset - repurposing hardware, not renting cloud.*
